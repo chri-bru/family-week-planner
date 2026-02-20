@@ -1,0 +1,16 @@
+include:
+  - ./infrastructure/postgres/docker-compose.yml
+  - ./infrastructure/keycloak/docker-compose.yml
+
+# services:
+#   nommia:
+#     build: .
+#     container_name: nommia
+#     port:
+#       - '8080:1234'
+#     volumes:
+#       - nommia-data:/app/data
+#     restart: unless-stopped
+#     environment:
+#       HOST: '0.0.0.0'
+#       PORT: '1234'

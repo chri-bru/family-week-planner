@@ -1,0 +1,31 @@
+
+```sql
+-- have to be run as database owner
+-- Create the database
+CREATE DATABASE weekplanner;
+
+-- Create the user with a secure password
+CREATE USER nommia WITH PASSWORD 'vsagdf29hnljeu';
+
+-- Grant full privileges on the database
+GRANT ALL PRIVILEGES ON DATABASE weekplanner TO nommia;
+
+-- Allow the user to manage all tables, sequences, functions
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO nommia;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO nommia;
+GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO nommia;
+
+-- Ensure future objects are also accessible
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT ALL PRIVILEGES ON TABLES TO nommia;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT ALL PRIVILEGES ON SEQUENCES TO nommia;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT ALL PRIVILEGES ON FUNCTIONS TO nommia;
+
+GRANT USAGE ON SCHEMA public TO nommia;
+GRANT CREATE ON SCHEMA public TO nommia;
+
+```
