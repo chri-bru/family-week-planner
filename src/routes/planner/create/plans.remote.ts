@@ -13,7 +13,7 @@ export const createPlanForUser = form(planFormSchema, async (data) => {
 		}
 		const plan = await createPlan(data.name, [user.id]);
 
-		redirect(303, `/planner/dashboard`);
+		redirect(303, `/planner/${plan.id}/dashboard`);
 	} catch (_err) {
 		console.log(_err);
 		error(503, 'There was an error creating the plan');
