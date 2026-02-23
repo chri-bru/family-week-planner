@@ -1,5 +1,5 @@
 import { form } from '$app/server';
-import { userFormSchema } from '$lib/schema/user';
+import { userFormSchema } from '$lib/forms/schema/user';
 import { createUser } from '$lib/server/db/api/users';
 import { error, redirect } from '@sveltejs/kit';
 

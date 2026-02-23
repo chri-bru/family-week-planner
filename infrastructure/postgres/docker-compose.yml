@@ -7,9 +7,9 @@ services:
     container_name: postgres
     env_file: .env
     environment:
-      POSTGRES_DB: ${KC_DB_DATABASE}
-      POSTGRES_USER: ${KC_DB_USERNAME}
-      POSTGRES_PASSWORD: ${KC_DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql
     restart: unless-stopped

@@ -2,7 +2,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Empty from '$lib/components/ui/empty/index.js';
 	import NotebookTabs from '@lucide/svelte/icons/notebook-tabs';
-	import { createPlanForUser } from '../../lib/api/plans.remote';
+	import { createPlanForUser } from './plans.remote';
 	import * as Field from '$lib/components/ui/field';
 	import { Input } from '$lib/components/ui/input';
 </script>

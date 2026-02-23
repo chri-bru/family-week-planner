@@ -17,11 +17,11 @@
 			email: email,
 			password: password,
 			name: username,
-			callbackURL: '/settings/account',
+			callbackURL: '/planner/dashboard',
 			fetchOptions: {
 				onSuccess() {
 					alert('Your account has been created.');
-					goto('/settings/account');
+					goto('/planner/dashboard');
 				},
 				onError(context) {
 					alert(context.error.message);

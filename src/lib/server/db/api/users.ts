@@ -1,34 +1,21 @@
 import { and, eq, inArray } from 'drizzle-orm';
-import { pglite } from '../pglite';
-import { user, familyPlanTable, memberTable } from '../schema/users';
+import { db } from '../db';
+import { user } from '../schema/users';
+import { familyPlanTable, memberTable } from '../schema/family-plans';
 
 /**
  * Queries existing users
  */
-export async function findUser(id: number) {
-	return await pglite.select().from(user).where(eq(user.kc_id, id));
-}
-
-/**
- * Creates a user
- */
-export async function createUser(id: string, kc_id: number, username: string) {
-	return await pglite
-		.insert(user)
-		.values({
-			id,
-			kc_id,
-			username
-		})
-		.returning();
+export async function findUser(id: string) {
+	return await db.select().from(user).where(eq(user.id, id));
 }
 
 /**
  * Create a family plan and optionally add initial members.
  * This runs in a transaction to keep member table consistent.
  */
-export async function createPlan(planName: string, memberIds?: number[]) {
-	return await pglite.transaction(async (tx) => {
+export async function createPlan(planName: string, memberIds?: string[]) {
+	return await db.transaction(async (tx) => {
 		const [familyRow] = await tx
 			.insert(familyPlanTable)
 			.values({
@@ -51,9 +38,9 @@ export async function createPlan(planName: string, memberIds?: number[]) {
 /**
  * Add a user to a family. Idempotent: will not create duplicate membership.
  */
-export async function addMemberToPlan(familyId: number, userId: number) {
+export async function addMemberToPlan(familyId: number, userId: string) {
 	// check if exists
-	const existing = await pglite
+	const existing = await db
 		.select()
 		.from(memberTable)
 		.where(and(eq(memberTable.family, familyId), eq(memberTable.user, userId)))
@@ -61,7 +48,7 @@ export async function addMemberToPlan(familyId: number, userId: number) {
 
 	if (existing.length > 0) return existing[0];
 
-	const [inserted] = await pglite
+	const [inserted] = await db
 		.insert(memberTable)
 		.values({
 			family: familyId,
@@ -74,8 +61,8 @@ export async function addMemberToPlan(familyId: number, userId: number) {
 /**
  * Remove a user from a family.
  */
-export async function removeMemberFromPlan(familyId: number, userId: number) {
-	await pglite
+export async function removeMemberFromPlan(familyId: number, userId: string) {
+	await db
 		.delete(memberTable)
 		.where(and(eq(memberTable.family, familyId), eq(memberTable.user, userId)));
 	return { ok: true };
@@ -86,10 +73,10 @@ export async function removeMemberFromPlan(familyId: number, userId: number) {
  * Returns user rows joined with member entries.
  */
 export async function getUsersByPlan(familyId: number) {
-	const rows = await pglite
+	const rows = await db
 		.select({
 			userId: user.id,
-			username: user.username
+			username: user.name
 		})
 		.from(user)
 		.innerJoin(memberTable, eq(memberTable.user, user.id))
@@ -101,8 +88,8 @@ export async function getUsersByPlan(familyId: number) {
  * Get all families a user is part of.
  * Returns family rows joined with member entries.
  */
-export async function getPlansByUser(userId: number) {
-	const rows = await pglite
+export async function getPlansByUser(userId: string) {
+	const rows = await db
 		.select({
 			familyId: familyPlanTable.id,
 			name: familyPlanTable.name,
@@ -120,6 +107,6 @@ export async function getPlansByUser(userId: number) {
  */
 export async function getUsersByIds(userIds: string[]) {
 	if (userIds.length === 0) return [];
-	const rows = await pglite.select().from(user).where(inArray(user.id, userIds));
+	const rows = await db.select().from(user).where(inArray(user.id, userIds));
 	return rows;
 }

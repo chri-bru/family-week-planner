@@ -57,7 +57,7 @@
 		</div>
 		<div class="mt-4 text-center text-sm">
 			Don&apos;t have an account?
-			<a href="/sign-up" class="underline">Sign up</a>
+			<a href="/auth/register" class="underline">Sign up</a>
 		</div>
 	</Card.Content>
 </Card.Root>

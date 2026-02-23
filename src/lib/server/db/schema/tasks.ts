@@ -12,7 +12,6 @@ import {
 	timestamp,
 	index
 } from 'drizzle-orm/pg-core';
-import { familyPlanTable, user } from './users';
 
 // const commonTaskDefinition = {
 // 	id: uuid().primaryKey().defaultRandom(),
