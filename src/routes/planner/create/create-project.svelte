@@ -22,8 +22,8 @@
 			<div class="m-6 mb-10 text-left">
 				<Field.Group>
 					<Field.Field>
-						<Field.Label for="planName">Name your plan</Field.Label>
-						<Input type="text" id="planName" name="planName" placeholder="My family plan" />
+						<Field.Label for="name">Name your plan</Field.Label>
+						<Input {...createPlanForUser.fields.name.as('text')} placeholder="My family plan" />
 					</Field.Field>
 				</Field.Group>
 			</div>

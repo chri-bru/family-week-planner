@@ -1,12 +1,19 @@
 import { getPlansByUser } from '$lib/server/db/api/users';
+import type { Family } from '$lib/server/db/schema/family-plans';
+import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ locals }: { locals: App.Locals }) => {
 	const userId = locals.user?.id;
 
-	if (!userId) {
-		return { plans: [] };
+	let plans: Family[] = [];
+
+	if (userId) {
+		plans = await getPlansByUser(userId);
 	}
 
-	const plans = await getPlansByUser(userId);
+	if (plans.length === 0) {
+		redirect(307, '/planner/create');
+	}
+
 	return { plans };
 };

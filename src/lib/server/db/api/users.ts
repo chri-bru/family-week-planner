@@ -26,7 +26,7 @@ export async function createPlan(planName: string, memberIds?: string[]) {
 		if (memberIds && memberIds.length > 0) {
 			const memberRows = memberIds.map((userId) => ({
 				family: familyRow.id,
-				member: userId
+				user: userId
 			}));
 			await tx.insert(memberTable).values(memberRows);
 		}
@@ -91,10 +91,10 @@ export async function getUsersByPlan(familyId: number) {
 export async function getPlansByUser(userId: string) {
 	const rows = await db
 		.select({
-			familyId: familyPlanTable.id,
+			id: familyPlanTable.id,
 			name: familyPlanTable.name,
 			createdAt: familyPlanTable.createdAt,
-			memberId: memberTable.id
+			updatedAt: familyPlanTable.updatedAt
 		})
 		.from(familyPlanTable)
 		.innerJoin(memberTable, eq(memberTable.family, familyPlanTable.id))
