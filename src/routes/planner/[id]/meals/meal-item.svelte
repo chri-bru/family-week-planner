@@ -7,6 +7,7 @@
 	import MealItemForm from './meal-item-form.svelte';
 	import PencilIcon from '@lucide/svelte/icons/pencil';
 	import { enhance } from '$app/forms';
+	import AddMealDialog from './add-meal-dialog.svelte';
 
 	let { meal, editMode }: { meal: Meal; editMode: boolean } = $props();
 
@@ -44,46 +45,11 @@
 					</Dialog.Content>
 				</form>
 			</Dialog.Root>
-
-			<Dialog.Root>
-				<form
-					method="POST"
-					action="?/save"
-					use:enhance={() => {
-						isLoading = true;
-						return async ({ update }) => {
-							await update();
-							isLoading = false;
-						};
-					}}
-				>
-					<Dialog.Trigger>
-						<Button variant="default" size="icon-lg" aria-label="Edit">
-							<PencilIcon />
-						</Button>
-					</Dialog.Trigger>
-					<Dialog.Content>
-						<Dialog.Header>
-							<Dialog.Title>Edit meal</Dialog.Title>
-							<Dialog.Description>You can edit your meal here.</Dialog.Description>
-						</Dialog.Header>
-						<MealItemForm {meal} bind:hasChanges />
-						<Dialog.Footer>
-							<Dialog.Close type="button" class={buttonVariants({ variant: 'outline' })}>
-								Cancel
-							</Dialog.Close>
-
-							<Button
-								type="submit"
-								aria-label="Save button"
-								disabled={isLoading || !hasChanges}
-							>
-								{isLoading ? 'Saving...' : 'Save changes'}
-							</Button>
-						</Dialog.Footer>
-					</Dialog.Content>
-				</form>
-			</Dialog.Root>
+			<AddMealDialog {meal} title="Edit your meal" description="You can edit this meal here.">
+				<Button variant="default" size="icon-lg" aria-label="Edit">
+					<PencilIcon />
+				</Button>
+			</AddMealDialog>
 		{/if}
 	</Item.Actions>
 </Item.Root>
