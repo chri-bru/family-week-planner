@@ -1,27 +1,15 @@
 <script lang="ts">
 	import type { Meal } from '$lib/server/db/schema/meals';
 	import PencilIcon from '@lucide/svelte/icons/pencil';
-	import AddIcon from '@lucide/svelte/icons/plus';
 	import CloseIcon from '@lucide/svelte/icons/x';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import MealItemList from './meal-item-list.svelte';
-	import AddMealDialog from './add-meal-dialog.svelte';
+	import type { Snippet } from 'svelte';
 
-	let { date, meals }: { date: string; meals: Meal[] } = $props();
+	let { date, meals, children }: { date: string; meals: Meal[]; children: Snippet } = $props();
 
 	let editMode: boolean = $state(false);
-
-	function createEmptyMeal(): Meal {
-		return {
-			date,
-			family: null,
-			id: -1,
-			link: null,
-			name: '',
-			type: null
-		};
-	}
 
 	function formatDate(dateStr: string): string {
 		const date = new Date(dateStr);
@@ -64,14 +52,6 @@
 		<MealItemList {meals} {editMode} />
 	</Card.Content>
 	<Card.Footer class="flex justify-end">
-		<AddMealDialog
-			title="Add new meal"
-			description="Create a new meal for this day."
-			meal={createEmptyMeal()}
-		>
-			<Button variant="default" size="icon-lg" aria-label="Edit">
-				<AddIcon />
-			</Button>
-		</AddMealDialog>
+		{@render children()}
 	</Card.Footer>
 </Card.Root>

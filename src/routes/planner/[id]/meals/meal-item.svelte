@@ -4,15 +4,10 @@
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import type { Meal } from '$lib/server/db/schema/meals';
 	import TrashIcon from '@lucide/svelte/icons/trash-2';
-	import MealItemForm from './meal-item-form.svelte';
 	import PencilIcon from '@lucide/svelte/icons/pencil';
-	import { enhance } from '$app/forms';
-	import AddMealDialog from './add-meal-dialog.svelte';
+	import UpdateMealDialog from './update-meal-dialog.svelte';
 
 	let { meal, editMode }: { meal: Meal; editMode: boolean } = $props();
-
-	let isLoading = $state(false);
-	let hasChanges = $state(false);
 </script>
 
 <Item.Root>
@@ -23,6 +18,7 @@
 	<Item.Actions>
 		{#if editMode}
 			<Dialog.Root>
+				<!-- TODO add delete, use remote function form? -->
 				<form method="POST" action="?/delete">
 					<Dialog.Trigger>
 						<Button variant="destructive" size="icon-lg" aria-label="Delete">
@@ -45,11 +41,11 @@
 					</Dialog.Content>
 				</form>
 			</Dialog.Root>
-			<AddMealDialog {meal} title="Edit your meal" description="You can edit this meal here.">
+			<UpdateMealDialog {meal}>
 				<Button variant="default" size="icon-lg" aria-label="Edit">
 					<PencilIcon />
 				</Button>
-			</AddMealDialog>
+			</UpdateMealDialog>
 		{/if}
 	</Item.Actions>
 </Item.Root>

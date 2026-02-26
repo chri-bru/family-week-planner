@@ -1,8 +1,11 @@
 <script lang="ts">
 	import type { Meal } from '$lib/server/db/schema/meals.js';
 	import MealCards from './meal-cards.svelte';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import AddIcon from '@lucide/svelte/icons/plus';
+	import type { PageData } from './$types';
 
-	let { data } = $props();
+	let { data }: { data: PageData } = $props();
 
 	type GroupedMeals = {
 		date: string;
@@ -40,8 +43,17 @@
 	});
 </script>
 
-<div class="flex flex-col gap-4 w-full items-center">
+<div class="flex w-full flex-col items-center gap-4">
 	{#each groupedMeals as meal}
-		<MealCards date={meal.date} meals={meal.meals} />
+		<MealCards date={meal.date} meals={meal.meals}>
+			<Button
+				href={`/planner/${data.familyId}/meals/${meal.date}/create`}
+				variant="default"
+				size="icon-lg"
+				aria-label="Add"
+			>
+				<AddIcon />
+			</Button>
+		</MealCards>
 	{/each}
 </div>

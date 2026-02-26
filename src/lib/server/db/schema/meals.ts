@@ -10,7 +10,7 @@ export const meal = pgTable('meal', {
 	name: text().notNull(),
 	date: date().notNull().defaultNow(),
 	link: text(),
-	type: mealType().default('dinner'),
+	type: mealType().default('dinner').notNull(),
 	family: integer().references(() => familyPlanTable.id)
 });
 

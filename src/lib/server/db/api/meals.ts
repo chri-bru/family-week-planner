@@ -1,17 +1,16 @@
 import { and, eq, gte, lte, asc } from 'drizzle-orm';
 import { db } from '../db';
-import { meal, mealType } from '../schema/meals';
-
-export type MealType = typeof mealType.enumValues;
+import { meal, type MealType } from '../schema/meals';
+import { toDateString } from '$lib/utils';
 
 function toPgDate(date: Date): string {
-	return date.toISOString().split('T')[0];
+	return toDateString(date);
 }
 
 export async function createMeal(data: {
 	name: string;
 	date: Date;
-	type: MealType[number];
+	type: MealType;
 	family: number;
 	link?: string;
 }) {

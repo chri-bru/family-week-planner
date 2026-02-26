@@ -2,19 +2,15 @@
 	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import type { Meal } from '$lib/server/db/schema/meals';
-	import MealItemForm from './meal-item-form.svelte';
 	import { enhance } from '$app/forms';
 	import type { Snippet } from 'svelte';
 
-	let {
-		meal,
-		title,
-		description,
-		children
-	}: { meal: Meal; title: string; description: string; children: Snippet } = $props();
+	let { meal, children }: { meal: Meal; children: Snippet } = $props();
 
 	let isLoading = $state(false);
-	let hasChanges = $state(false);
+
+	let title = 'Edit your meal';
+	let description = 'You can edit this meal here.';
 </script>
 
 <Dialog.Root>
@@ -37,13 +33,13 @@
 				<Dialog.Title>{title}</Dialog.Title>
 				<Dialog.Description>{description}</Dialog.Description>
 			</Dialog.Header>
-			<MealItemForm {meal} bind:hasChanges />
+			<!-- TODO add update dialog -->
 			<Dialog.Footer>
 				<Dialog.Close type="button" class={buttonVariants({ variant: 'outline' })}>
 					Cancel
 				</Dialog.Close>
 
-				<Button type="submit" aria-label="Save button" disabled={isLoading || !hasChanges}>
+				<Button type="submit" aria-label="Save button" disabled={isLoading}>
 					{isLoading ? 'Saving...' : 'Save changes'}
 				</Button>
 			</Dialog.Footer>
