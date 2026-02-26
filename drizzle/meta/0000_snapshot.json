@@ -1,5 +1,5 @@
 {
-  "id": "21da0e9d-dae9-454e-b9a1-83f9566831a8",
+  "id": "e0aab9d5-dbe9-46f1-8273-2c7c614606aa",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -117,20 +117,9 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "identity": {
-            "type": "always",
-            "name": "family_plan_id_seq",
-            "schema": "public",
-            "increment": "1",
-            "startWith": "1",
-            "minValue": "1",
-            "maxValue": "2147483647",
-            "cache": "1",
-            "cycle": false
-          }
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -184,7 +173,7 @@
         },
         "family": {
           "name": "family",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -282,11 +271,12 @@
           "type": "meal_type",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "'dinner'"
         },
         "family": {
           "name": "family",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         }

@@ -1,4 +1,4 @@
-import { integer, pgTable, text, date, pgEnum } from 'drizzle-orm/pg-core';
+import { integer, pgTable, text, date, pgEnum, uuid } from 'drizzle-orm/pg-core';
 import { familyPlanTable } from './family-plans';
 
 const mealTypes = ['breakfast', 'dinner', 'lunch', 'special', 'snack'] as const;
@@ -11,7 +11,7 @@ export const meal = pgTable('meal', {
 	date: date().notNull().defaultNow(),
 	link: text(),
 	type: mealType().default('dinner').notNull(),
-	family: integer().references(() => familyPlanTable.id)
+	family: text().references(() => familyPlanTable.id)
 });
 
 export type Meal = typeof meal.$inferSelect;

@@ -11,7 +11,7 @@ export async function createMeal(data: {
 	name: string;
 	date: Date;
 	type: MealType;
-	family: number;
+	family: string;
 	link?: string;
 }) {
 	const [created] = await db

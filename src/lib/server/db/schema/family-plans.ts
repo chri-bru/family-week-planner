@@ -1,8 +1,9 @@
-import { integer, pgTable, varchar, timestamp, text, boolean } from 'drizzle-orm/pg-core';
+import { integer, pgTable, varchar, timestamp, text, uuid } from 'drizzle-orm/pg-core';
 import { user } from './users';
+import { randomUUID } from 'node:crypto';
 
 export const familyPlanTable = pgTable('family_plan', {
-    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    id: text().primaryKey().$default(() => randomUUID()),
     name: varchar({ length: 256 }).notNull(),
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at').defaultNow()
@@ -10,7 +11,7 @@ export const familyPlanTable = pgTable('family_plan', {
 
 export const memberTable = pgTable('member', {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    family: integer().references(() => familyPlanTable.id),
+    family: text().references(() => familyPlanTable.id),
     user: text().references(() => user.id),
     createdAt: timestamp('created_at').defaultNow()
 });

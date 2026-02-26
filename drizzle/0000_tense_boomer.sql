@@ -16,7 +16,7 @@ CREATE TABLE "account" (
 );
 --> statement-breakpoint
 CREATE TABLE "family_plan" (
-	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "family_plan_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
+	"id" text PRIMARY KEY NOT NULL,
 	"name" varchar(256) NOT NULL,
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now()
@@ -24,7 +24,7 @@ CREATE TABLE "family_plan" (
 --> statement-breakpoint
 CREATE TABLE "member" (
 	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "member_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
-	"family" integer,
+	"family" text,
 	"user" text,
 	"created_at" timestamp DEFAULT now()
 );
@@ -34,8 +34,8 @@ CREATE TABLE "meal" (
 	"name" text NOT NULL,
 	"date" date DEFAULT now() NOT NULL,
 	"link" text,
-	"type" "meal_type",
-	"family" integer
+	"type" "meal_type" DEFAULT 'dinner' NOT NULL,
+	"family" text
 );
 --> statement-breakpoint
 CREATE TABLE "passkey" (

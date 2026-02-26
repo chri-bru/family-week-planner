@@ -1,9 +1,9 @@
-import { form, getRequestEvent, query } from '$app/server';
-import { planFormSchema } from '$lib/forms/schema/plan';
-import { createPlan } from '$lib/server/db/api/users';
+import { form, getRequestEvent } from '$app/server';
+import { familyPlanFormSchema } from '$lib/forms/schema/family-plan';
+import { createPlan as createFamilyPlan } from '$lib/server/db/api/users';
 import { error, redirect } from '@sveltejs/kit';
 
-export const createPlanForUser = form(planFormSchema, async (data) => {
+export const createPlanForUser = form(familyPlanFormSchema, async (data) => {
 	try {
 		const event = getRequestEvent();
 		const user = event.locals.user;
@@ -11,9 +11,9 @@ export const createPlanForUser = form(planFormSchema, async (data) => {
 		if (!user) {
 			error(401, 'Unauthorized');
 		}
-		const plan = await createPlan(data.name, [user.id]);
+		await createFamilyPlan(data.name, [user.id]);
 
-		redirect(303, `/planner/${plan.id}/dashboard`);
+		redirect(303, `/planner`);
 	} catch (_err) {
 		console.log(_err);
 		error(503, 'There was an error creating the plan');

@@ -8,13 +8,12 @@ import { zod4 } from 'sveltekit-superforms/adapters';
 import { mealFormSchema } from '../../schema';
 import type { Infer } from 'sveltekit-superforms';
 
-export type MealFormData = Infer<typeof mealFormSchema>;
-
 export const load = async ({ params }: { params: Record<string, any> }) => {
         const date = params.date as string
+		const familyPlanId = params.id as string
 	return {
         date,
-		form: await superValidate(zod4(mealFormSchema))
+		familyPlanId
 	};
 };
 
@@ -34,9 +33,9 @@ export const actions = {
 			return fail(401, { message: 'Unauthorized' });
 		}
 
-		const familyId = parseInt(params.id);
+		const familyId = params.id as string;
 
-		if (!familyId || isNaN(familyId)) {
+		if (!familyId) {
 			return fail(400, { message: 'Invalid family ID' });
 		}
 
