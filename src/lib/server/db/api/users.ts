@@ -38,7 +38,7 @@ export async function createPlan(planName: string, memberIds?: string[]) {
 /**
  * Add a user to a family. Idempotent: will not create duplicate membership.
  */
-export async function addMemberToPlan(familyId: number, userId: string) {
+export async function addMemberToPlan(familyId: string, userId: string) {
 	// check if exists
 	const existing = await db
 		.select()
@@ -61,7 +61,7 @@ export async function addMemberToPlan(familyId: number, userId: string) {
 /**
  * Remove a user from a family.
  */
-export async function removeMemberFromPlan(familyId: number, userId: string) {
+export async function removeMemberFromPlan(familyId: string, userId: string) {
 	await db
 		.delete(memberTable)
 		.where(and(eq(memberTable.family, familyId), eq(memberTable.user, userId)));
@@ -72,7 +72,7 @@ export async function removeMemberFromPlan(familyId: number, userId: string) {
  * Get all users that belong to a family.
  * Returns user rows joined with member entries.
  */
-export async function getUsersByPlan(familyId: number) {
+export async function getUsersByPlan(familyId: string) {
 	const rows = await db
 		.select({
 			userId: user.id,

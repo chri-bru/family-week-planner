@@ -5,4 +5,4 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<AddMealForm date={data.date} familyPlanId={data.familyPlanId} />
+<AddMealForm date={data.date} />

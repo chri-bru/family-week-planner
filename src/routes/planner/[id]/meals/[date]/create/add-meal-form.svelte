@@ -4,20 +4,23 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Field from '$lib/components/ui/field';
 
-	let { date, familyPlanId }: { date: string; familyPlanId: string } = $props();
+	let { date }: { date: string } = $props();
 
-	addMeal.fields.date.set(date);
 	addMeal.fields.type.set('dinner');
-	addMeal.fields.familyPlanId.set(familyPlanId);
-
-	// TODO show errors on submit - something is undefined
+	addMeal.fields.date.set(date);
 </script>
 
-<form {...addMeal} class="w-2/3 space-y-6">
+<form
+	{...addMeal}
+	class="w-2/3 space-y-6"
+>
 	<Field.Group>
 		<Field.Field>
 			<Field.Label for="name">Meal to cook</Field.Label>
 			<Input {...addMeal.fields.name.as('text')} placeholder="Meal name" />
+			{#each addMeal.fields.name.issues() as issue}
+				<Field.Error class="issue">{issue.message}</Field.Error>
+			{/each}
 		</Field.Field>
 
 		<Field.Field>
@@ -43,6 +46,9 @@
 				<option value="snack">Snack</option>
 				<option value="special">Special</option>
 			</select>
+			{#each addMeal.fields.type.issues() as issue}
+				<Field.Error class="issue">{issue.message}</Field.Error>
+			{/each}
 		</Field.Field>
 
 		<Field.Field>
