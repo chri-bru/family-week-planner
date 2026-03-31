@@ -19,9 +19,19 @@
 		const month = (date.getMonth() + 1).toString().padStart(2, '0');
 		return `${dayOfWeek} (${day}-${month})`;
 	}
+
+	const isToday = (dateStr: string): boolean => {
+		const today = new Date();
+		const date = new Date(dateStr);
+		return (
+			today.getDate() === date.getDate() &&
+			today.getMonth() === date.getMonth() &&
+			today.getFullYear() === date.getFullYear()
+		);
+	};
 </script>
 
-<Card.Root class="w-full max-w-sm">
+<Card.Root class="w-full max-w-sm {isToday(date) ? 'border-2 border-primary' : ''}">
 	<Card.Header>
 		<Card.Title>{formatDate(date)}</Card.Title>
 		<Card.Action class="gap-4">
