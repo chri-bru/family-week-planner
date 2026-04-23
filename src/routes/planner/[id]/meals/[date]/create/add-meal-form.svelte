@@ -1,24 +1,24 @@
 <script lang="ts">
-	import { addMeal } from './meals.remote';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Field from '$lib/components/ui/field';
-
+	import { addMealAction } from '$lib/forms/meals.remote';
+	
 	let { date }: { date: string } = $props();
 
-	addMeal.fields.type.set('dinner');
-	addMeal.fields.date.set(date);
+	addMealAction.fields.type.set('dinner');
+	addMealAction.fields.date.set(date);
 </script>
 
 <form
-	{...addMeal}
+	{...addMealAction}
 	class="w-2/3 space-y-6"
 >
 	<Field.Group>
 		<Field.Field>
 			<Field.Label for="name">Meal to cook</Field.Label>
-			<Input {...addMeal.fields.name.as('text')} placeholder="Meal name" />
-			{#each addMeal.fields.name.issues() as issue}
+			<Input {...addMealAction.fields.name.as('text')} placeholder="Meal name" />
+			{#each addMealAction.fields.name.issues() as issue}
 				<Field.Error class="issue">{issue.message}</Field.Error>
 			{/each}
 		</Field.Field>
@@ -26,7 +26,7 @@
 		<Field.Field>
 			<Field.Label for="date">Date</Field.Label>
 			<Input
-				{...addMeal.fields.date.as('text')}
+				{...addMealAction.fields.date.as('text')}
 				placeholder="Date"
 				type="date"
 				readonly
@@ -37,7 +37,7 @@
 		<Field.Field>
 			<Field.Label for="type">Type</Field.Label>
 			<select
-				{...addMeal.fields.type.as('text')}
+				{...addMealAction.fields.type.as('text')}
 				class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
 			>
 				<option value="breakfast">Breakfast</option>
@@ -46,14 +46,14 @@
 				<option value="snack">Snack</option>
 				<option value="special">Special</option>
 			</select>
-			{#each addMeal.fields.type.issues() as issue}
+			{#each addMealAction.fields.type.issues() as issue}
 				<Field.Error class="issue">{issue.message}</Field.Error>
 			{/each}
 		</Field.Field>
 
 		<Field.Field>
 			<Field.Label for="link">Link (optional)</Field.Label>
-			<Input {...addMeal.fields.link.as('text')} placeholder="https://..." type="url" />
+			<Input {...addMealAction.fields.link.as('text')} placeholder="https://..." type="url" />
 		</Field.Field>
 	</Field.Group>
 

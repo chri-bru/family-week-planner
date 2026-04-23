@@ -1,6 +1,6 @@
 import { and, eq, gte, lte, asc } from 'drizzle-orm';
 import { db } from '../db';
-import { meal, type MealType } from '../schema/meals';
+import { meal, type Meal, type MealType } from '../schema/meals';
 import { toDateString } from '$lib/utils';
 
 function toPgDate(date: Date): string {
@@ -32,7 +32,7 @@ export async function getMealById(id: number) {
 	return result || null;
 }
 
-export async function getMealsByFamily(familyId: number) {
+export async function getMealsByFamily(familyId: string) {
 	return await db.select().from(meal).where(eq(meal.family, familyId));
 }
 
@@ -43,6 +43,7 @@ export async function updateMeal(
 		date?: Date;
 		type?: MealType[number];
 		link?: string;
+		family?: string;
 	}
 ) {
 	const updateData: Record<string, unknown> = { ...data };
@@ -73,7 +74,7 @@ function getWeekBounds(date: Date): { start: string; end: string } {
 	return { start: toPgDate(start), end: toPgDate(end) };
 }
 
-export async function getMealsForWeek(familyId: number, weekStartDate: Date) {
+export async function getMealsForWeek(familyId: string, weekStartDate: Date) {
 	const { start, end } = getWeekBounds(weekStartDate);
 
 	return await db
@@ -83,11 +84,11 @@ export async function getMealsForWeek(familyId: number, weekStartDate: Date) {
 		.orderBy(asc(meal.date));
 }
 
-export async function getMealsForCurrentWeek(familyId: number) {
+export async function getMealsForCurrentWeek(familyId: string) {
 	return getMealsForWeek(familyId, new Date());
 }
 
-export async function getMealsForNextWeek(familyId: number) {
+export async function getMealsForNextWeek(familyId: string) {
 	const today = new Date();
 	const nextWeekStart = new Date(today);
 	nextWeekStart.setDate(today.getDate() + 7);
@@ -95,7 +96,7 @@ export async function getMealsForNextWeek(familyId: number) {
 	return getMealsForWeek(familyId, nextWeekStart);
 }
 
-export async function getMealsForPreviousWeek(familyId: number) {
+export async function getMealsForPreviousWeek(familyId: string) {
 	const today = new Date();
 	const prevWeekStart = new Date(today);
 	prevWeekStart.setDate(today.getDate() - 7);
@@ -103,7 +104,7 @@ export async function getMealsForPreviousWeek(familyId: number) {
 	return getMealsForWeek(familyId, prevWeekStart);
 }
 
-export async function getMealsForDateRange(familyId: number, startDate: Date, endDate: Date) {
+export async function getMealsForDateRange(familyId: string, startDate: Date, endDate: Date) {
 	return await db
 		.select()
 		.from(meal)
@@ -112,6 +113,20 @@ export async function getMealsForDateRange(familyId: number, startDate: Date, en
 				eq(meal.family, familyId),
 				gte(meal.date, toPgDate(startDate)),
 				lte(meal.date, toPgDate(endDate))
+			)
+		)
+		.orderBy(asc(meal.date));
+}
+
+export async function getMealForToday(familyId: string) {
+	const today = new Date();
+	return await db
+		.select()
+		.from(meal)
+		.where(
+			and(
+				eq(meal.family, familyId),
+				eq(meal.date, toPgDate(today))
 			)
 		)
 		.orderBy(asc(meal.date));

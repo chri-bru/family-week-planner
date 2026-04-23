@@ -14,11 +14,14 @@
 
 <div class="flex min-h-screen flex-col items-center gap-8 bg-gray-50">
 	<header class="w-full max-w-4xl px-4 py-4">
-		<h1 class="text-center text-2xl font-bold">Family Week Planner</h1>
+		<h1 class="text-center text-2xl font-bold">Your Family Week Planner</h1>
 	</header>
 	<main class="flex w-full max-w-4xl flex-1 flex-col items-center px-4 pb-8">
 		{@render children()}
 	</main>
+	<footer>
+		<p class="text-sm text-gray-500">© {new Date().getFullYear()} Family Week Planner. All rights reserved.</p>
+	</footer>
 </div>
 
 <div style="display:none">

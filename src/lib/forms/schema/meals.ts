@@ -9,3 +9,9 @@ export const mealFormSchema = z.object({
 });
 
 export type MealFormSchema = typeof mealFormSchema;
+
+export const deleteMealFormSchema = z.object({
+	id: z.number()
+});
+
+export type DeleteMealFormSchema = typeof deleteMealFormSchema;

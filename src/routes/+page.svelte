@@ -2,8 +2,9 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
-
-<Button href="/auth/login">Login</Button>
-<Button href="/auth/register">Register</Button>
+<div class="flex flex-col items-center justify-center gap-4">
+	<h1 class="text-4xl font-bold">Welcome!</h1>
+	<p class="text-lg text-gray-600">Plan your family's meals and todos for the week ahead!</p>
+	<Button size="lg" href="/auth/login">Login</Button>
+	<Button size="lg" href="/auth/register">Register</Button>
+</div>

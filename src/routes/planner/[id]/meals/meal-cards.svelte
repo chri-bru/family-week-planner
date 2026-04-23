@@ -7,7 +7,7 @@
 	import MealItemList from './meal-item-list.svelte';
 	import type { Snippet } from 'svelte';
 
-	let { date, meals, children }: { date: string; meals: Meal[]; children: Snippet } = $props();
+	let { date, meals, readOnly, children }: { date: string; meals: Meal[]; readOnly: boolean; children: Snippet } = $props();
 
 	let editMode: boolean = $state(false);
 
@@ -35,7 +35,7 @@
 	<Card.Header>
 		<Card.Title>{formatDate(date)}</Card.Title>
 		<Card.Action class="gap-4">
-			{#if meals.length > 0}
+			{#if meals.length > 0 && !readOnly}
 				{#if editMode}
 					<Button
 						onclick={() => (editMode = false)}

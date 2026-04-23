@@ -4,6 +4,7 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import AddIcon from '@lucide/svelte/icons/plus';
 	import type { PageData } from './$types';
+	import { toDateString } from '$lib/utils';
 
 	let { data }: { data: PageData } = $props();
 
@@ -25,7 +26,7 @@
 		for (let i = 0; i < 7; i++) {
 			const date = new Date(weekStart);
 			date.setDate(weekStart.getDate() + i);
-			const dateKey = date.toISOString().split('T')[0];
+			const dateKey = toDateString(date);
 			groups[dateKey] = [];
 		}
 
@@ -45,7 +46,7 @@
 
 <div class="flex w-full flex-col items-center gap-4">
 	{#each groupedMeals as meal}
-		<MealCards date={meal.date} meals={meal.meals}>
+		<MealCards date={meal.date} meals={meal.meals} readOnly={false}>
 			<Button
 				href={`/planner/${data.familyId}/meals/${meal.date}/create`}
 				variant="default"
