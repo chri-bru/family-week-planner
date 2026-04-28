@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 	import { signUp } from '$lib/auth-client';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
@@ -11,17 +12,20 @@
 	let email = $state('');
 	let password = $state('');
 
+	const redirect = page.url.searchParams.get('redirect') ?? '/planner';
+
+	// TODO remove alerts and replace with proper UI feedback
 	// Function to handle form submission
 	const handleSignUp = async () => {
 		await signUp.email({
 			email: email,
 			password: password,
 			name: username,
-			callbackURL: '/planner/dashboard',
+			callbackURL: redirect,
 			fetchOptions: {
 				onSuccess() {
 					alert('Your account has been created.');
-					goto('/planner/dashboard');
+					goto(redirect);
 				},
 				onError(context) {
 					alert(context.error.message);
@@ -31,7 +35,7 @@
 	};
 </script>
 
-<Card.Root class="mx-auto max-w-sm">
+<Card.Root class="mx-auto w-full max-w-md border">
 	<Card.Header>
 		<Card.Title class="text-xl">Sign Up</Card.Title>
 		<Card.Description>Enter your information to create an account</Card.Description>

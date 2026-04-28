@@ -7,7 +7,7 @@
 	import MealItemList from './meal-item-list.svelte';
 	import type { Snippet } from 'svelte';
 
-	let { date, meals, readOnly, children }: { date: string; meals: Meal[]; readOnly: boolean; children: Snippet } = $props();
+	let { date, meals, readOnly, children }: { date: string; meals: Meal[]; readOnly: boolean; children?: Snippet } = $props();
 
 	let editMode: boolean = $state(false);
 
@@ -62,6 +62,6 @@
 		<MealItemList {meals} {editMode} />
 	</Card.Content>
 	<Card.Footer class="flex justify-end">
-		{@render children()}
+		{@render children?.()}
 	</Card.Footer>
 </Card.Root>

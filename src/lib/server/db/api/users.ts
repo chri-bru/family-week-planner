@@ -110,3 +110,10 @@ export async function getUsersByIds(userIds: string[]) {
 	const rows = await db.select().from(user).where(inArray(user.id, userIds));
 	return rows;
 }
+
+/**
+ * Find a user by email
+ */
+export async function findUserByEmail(email: string) {
+	return await db.select().from(user).where(eq(user.email, email)).limit(1);
+}

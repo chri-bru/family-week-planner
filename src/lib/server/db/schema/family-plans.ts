@@ -5,6 +5,7 @@ import { randomUUID } from 'node:crypto';
 export const familyPlanTable = pgTable('family_plan', {
     id: text().primaryKey().$default(() => randomUUID()),
     name: varchar({ length: 256 }).notNull(),
+    invitationToken: varchar({ length: 64 }).unique(),
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at').defaultNow()
 });
