@@ -1,7 +1,7 @@
 import { command, form, getRequestEvent } from '$app/server';
-import { createMeal, deleteMeal, updateMeal } from '$lib/server/db/api/meals';
-import { getPlansByUser } from '$lib/server/db/api/users';
-import type { MealType } from '$lib/server/db/schema/meals';
+import { createMeal, deleteMeal, updateMeal } from '#lib/server/db/api/meals.js';
+import { getPlansByUser } from '#lib/server/db/api/users.js';
+import type { MealType } from '#lib/server/db/schema/meals.js';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { deleteMealFormSchema, mealFormSchema } from './schema/meals';
 
@@ -18,10 +18,10 @@ const validateRequest = async (): Promise<string> => {
 		error(400, 'Invalid family plan ID');
 	}
 
-	const plansByUser = await getPlansByUser(user.id)
+	const plansByUser = await getPlansByUser(user.id);
 
 	if (plansByUser === undefined || plansByUser.length === 0) {
-		const userIsPartOfPlan = plansByUser.find( (val) => val.id === familyPlanId)
+		const userIsPartOfPlan = plansByUser.find((val) => val.id === familyPlanId);
 
 		if (userIsPartOfPlan === undefined) {
 			error(403, 'User is not part of the specified family plan');
@@ -29,7 +29,7 @@ const validateRequest = async (): Promise<string> => {
 	}
 
 	return familyPlanId;
-}
+};
 
 export const addMealAction = form(mealFormSchema, async (data) => {
 	const familyPlanId = await validateRequest();
@@ -42,8 +42,8 @@ export const addMealAction = form(mealFormSchema, async (data) => {
 			family: familyPlanId,
 			link: data.link
 		});
-	} catch(_err) {
-		error(501, "There was an error creating the meal.")
+	} catch (_err) {
+		error(501, 'There was an error creating the meal.');
 	}
 
 	redirect(302, `/planner/${familyPlanId}/meals`);

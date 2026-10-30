@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { locales, localizeHref } from '$lib/paraglide/runtime';
-	import favicon from '$lib/assets/favicon.svg';
+	import { locales, localizeHref } from '#lib/paraglide/runtime.js';
+	import favicon from '#lib/assets/favicon.svg';
 	import '../app.css';
 
 	let { children } = $props();
@@ -20,7 +20,9 @@
 		{@render children()}
 	</main>
 	<footer>
-		<p class="text-sm text-gray-500">© {new Date().getFullYear()} Family Week Planner. All rights reserved.</p>
+		<p class="text-sm text-gray-500">
+			© {new Date().getFullYear()} Family Week Planner. All rights reserved.
+		</p>
 	</footer>
 </div>
 

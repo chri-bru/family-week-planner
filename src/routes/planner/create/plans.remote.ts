@@ -1,6 +1,6 @@
 import { form, getRequestEvent } from '$app/server';
-import { familyPlanFormSchema } from '$lib/forms/schema/family-plan';
-import { createPlan as createFamilyPlan } from '$lib/server/db/api/users';
+import { familyPlanFormSchema } from '#lib/forms/schema/family-plan.js';
+import { createPlan as createFamilyPlan } from '#lib/server/db/api/users.js';
 import { error, redirect } from '@sveltejs/kit';
 
 export const createPlanForUser = form(familyPlanFormSchema, async (data) => {

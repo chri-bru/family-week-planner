@@ -1,16 +1,16 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import * as Item from '$lib/components/ui/item/index.js';
-	import { deleteMealAction } from '$lib/forms/meals.remote';
-	import type { Meal } from '$lib/server/db/schema/meals';
+	import * as Item from '#lib/components/ui/item/index.js';
+	import { deleteMealAction } from '#lib/forms/meals.remote.js';
+	import type { Meal } from '#lib/server/db/schema/meals.js';
 	import MealItem from './meal-item.svelte';
 	import ExternalLinkIcon from '@lucide/svelte/icons/external-link';
 
 	let { meals, editMode }: { meals: Meal[]; editMode: boolean } = $props();
 
-	async function deleteFn(meal: Meal) { 
+	async function deleteFn(meal: Meal) {
 		await deleteMealAction({ id: meal.id });
-		await invalidateAll()
+		await invalidateAll();
 	}
 </script>
 
@@ -26,7 +26,7 @@
 					</MealItem>
 				</a>
 			{:else}
-				<MealItem {meal} {editMode} {deleteFn}/>
+				<MealItem {meal} {editMode} {deleteFn} />
 			{/if}
 		{/each}
 	{/if}

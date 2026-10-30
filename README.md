@@ -12,12 +12,14 @@ Nommia is a collaborative web application designed to help small households (fam
 ## Features
 
 ### Implemented
+
 - **Meal Planning**: Plan meals for each day of the week with detailed recipes and scheduling
 - **User Authentication**: Secure login and registration using Better Auth
 - **Family Plans**: Create and manage family groups with multiple members
 - **Dashboard**: Overview of weekly plans and upcoming events
 
 ### Planned
+
 - **Task Management**: Assign and track household chores and responsibilities
 - **Grocery List Management**: Automatically generate shopping lists from meal plans and manual additions
 - **Address Book**: Store and manage family contacts, emergency information, and important details

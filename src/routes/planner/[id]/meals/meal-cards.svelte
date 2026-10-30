@@ -1,13 +1,18 @@
 <script lang="ts">
-	import type { Meal } from '$lib/server/db/schema/meals';
+	import type { Meal } from '#lib/server/db/schema/meals.js';
 	import PencilIcon from '@lucide/svelte/icons/pencil';
 	import CloseIcon from '@lucide/svelte/icons/x';
-	import { Button } from '$lib/components/ui/button/index.js';
-	import * as Card from '$lib/components/ui/card/index.js';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import * as Card from '#lib/components/ui/card/index.js';
 	import MealItemList from './meal-item-list.svelte';
 	import type { Snippet } from 'svelte';
 
-	let { date, meals, readOnly, children }: { date: string; meals: Meal[]; readOnly: boolean; children?: Snippet } = $props();
+	let {
+		date,
+		meals,
+		readOnly,
+		children
+	}: { date: string; meals: Meal[]; readOnly: boolean; children?: Snippet } = $props();
 
 	let editMode: boolean = $state(false);
 

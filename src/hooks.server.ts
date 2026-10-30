@@ -1,9 +1,8 @@
-import { sequence } from '@sveltejs/kit/hooks';
-import type { Handle } from '@sveltejs/kit';
-import { paraglideMiddleware } from '$lib/paraglide/server';
+import { sequence, type Handle } from '@sveltejs/kit/hooks';
+import { paraglideMiddleware } from '#lib/paraglide/server.js';
 import { svelteKitHandler } from 'better-auth/svelte-kit';
-import { auth } from '$lib/auth';
-import { building } from '$app/environment';
+import { auth } from '#lib/auth.js';
+import { building } from '$app/env';
 
 // Translation
 const handleParaglide: Handle = ({ event, resolve }) =>

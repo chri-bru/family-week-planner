@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { Button } from '$lib/components/ui/button';
-	import { Card, CardHeader, CardTitle, CardContent } from '$lib/components/ui/card';
-	import { Avatar, AvatarFallback } from '$lib/components/ui/avatar';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Card, CardHeader, CardTitle, CardContent } from '#lib/components/ui/card/index.js';
+	import { Avatar, AvatarFallback } from '#lib/components/ui/avatar/index.js';
 	import Copy from '@lucide/svelte/icons/copy';
 	import Check from '@lucide/svelte/icons/check';
 	import Link from '@lucide/svelte/icons/link';
@@ -58,12 +58,12 @@
 		</CardHeader>
 		<CardContent class="space-y-4">
 			<p class="text-sm text-muted-foreground">
-				Share this link with family members you want to invite. They can join by clicking the link and
-				either signing in or creating an account.
+				Share this link with family members you want to invite. They can join by clicking the link
+				and either signing in or creating an account.
 			</p>
 			<div class="flex items-center gap-2">
 				<Link class="size-4 shrink-0 text-muted-foreground" />
-				<code class="flex-1 truncate text-sm bg-muted px-2 py-1 rounded">
+				<code class="flex-1 truncate rounded bg-muted px-2 py-1 text-sm">
 					{page.url.origin}/invite/{data.invitationToken}
 				</code>
 				<Button size="icon-sm" variant="ghost" onclick={copyLink}>

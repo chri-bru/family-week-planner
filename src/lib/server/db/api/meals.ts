@@ -1,7 +1,7 @@
 import { and, eq, gte, lte, asc } from 'drizzle-orm';
 import { db } from '../db';
 import { meal, type Meal, type MealType } from '../schema/meals';
-import { toDateString } from '$lib/utils';
+import { toDateString } from '#lib/utils.js';
 
 function toPgDate(date: Date): string {
 	return toDateString(date);
@@ -123,11 +123,6 @@ export async function getMealForToday(familyId: string) {
 	return await db
 		.select()
 		.from(meal)
-		.where(
-			and(
-				eq(meal.family, familyId),
-				eq(meal.date, toPgDate(today))
-			)
-		)
+		.where(and(eq(meal.family, familyId), eq(meal.date, toPgDate(today))))
 		.orderBy(asc(meal.date));
 }

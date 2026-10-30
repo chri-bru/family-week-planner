@@ -6,7 +6,7 @@
 	import CheckSquare from '@lucide/svelte/icons/check-square';
 	import ShoppingCart from '@lucide/svelte/icons/shopping-cart';
 	import Book from '@lucide/svelte/icons/book';
-	import { cn } from '$lib/utils';
+	import { cn } from '#lib/utils.js';
 
 	interface Props {
 		class?: string;
@@ -57,7 +57,7 @@
 
 <nav
 	class={cn(
-		'fixed bottom-0 left-0 right-0 z-50 flex justify-around border-t bg-background/95 px-2 py-2 backdrop-blur transition-transform duration-300 ease-in-out',
+		'fixed right-0 bottom-0 left-0 z-50 flex justify-around border-t bg-background/95 px-2 py-2 backdrop-blur transition-transform duration-300 ease-in-out',
 		!visible && 'translate-y-full',
 		className
 	)}

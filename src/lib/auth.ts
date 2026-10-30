@@ -7,17 +7,15 @@ import { sessionTable } from './server/db/schema/sessions';
 import { accountTable } from './server/db/schema/accounts';
 import { verificationTable } from './server/db/schema/verifications';
 import { passkeyTable } from './server/db/schema/passkeys';
-import { env } from '$env/dynamic/private';
+import { BETTER_AUTH_URL } from '$app/env/private';
 
 export const auth = betterAuth({
-	baseURL: env.BETTER_AUTH_URL,
-	emailAndPassword: {
-		enabled: true
-	},
+	baseURL: BETTER_AUTH_URL,
+	emailAndPassword: { enabled: true },
 	database: drizzleAdapter(db, {
 		provider: 'pg',
 		schema: {
-			user: user,
+			user,
 			session: sessionTable,
 			account: accountTable,
 			verification: verificationTable,

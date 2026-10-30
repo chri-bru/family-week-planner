@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { authClient } from '$lib/auth-client';
-	import { Button } from '$lib/components/ui/button';
-	import { Card, CardHeader, CardTitle, CardContent } from '$lib/components/ui/card';
+	import { authClient } from '#lib/auth-client.js';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Card, CardHeader, CardTitle, CardContent } from '#lib/components/ui/card/index.js';
 
 	async function registerPasskey() {
 		const { data, error } = await authClient.passkey.addPasskey({

@@ -1,8 +1,8 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { env } from '$env/dynamic/private';
+import { DATABASE_URL } from '$app/env/private';
 
-if (env.DATABASE_URL === undefined) {
+if (DATABASE_URL === undefined) {
 	throw new Error('DATABASE_URL environment variable is not set');
 }
 
-export const pg = drizzle(env.DATABASE_URL);
+export const pg = drizzle(DATABASE_URL);

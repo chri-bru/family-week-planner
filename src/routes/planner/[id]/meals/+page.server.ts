@@ -1,5 +1,5 @@
-import { getMealsForCurrentWeek } from '$lib/server/db/api/meals.js';
-import type { Meal } from '$lib/server/db/schema/meals';
+import { getMealsForCurrentWeek } from '#lib/server/db/api/meals.js';
+import type { Meal } from '#lib/server/db/schema/meals.js';
 
 export const load = async ({
 	locals,

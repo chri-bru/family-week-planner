@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { Meal } from '$lib/server/db/schema/meals.js';
+	import type { Meal } from '#lib/server/db/schema/meals.js';
 	import MealCards from './meal-cards.svelte';
-	import { Button } from '$lib/components/ui/button/index.js';
+	import { Button } from '#lib/components/ui/button/index.js';
 	import AddIcon from '@lucide/svelte/icons/plus';
 	import type { PageData } from './$types';
-	import { toDateString } from '$lib/utils';
+	import { toDateString } from '#lib/utils.js';
 
 	let { data }: { data: PageData } = $props();
 

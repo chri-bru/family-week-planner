@@ -1,7 +1,19 @@
 import { redirect, error } from '@sveltejs/kit';
-import { getFamilyByToken, acceptInvitationToken, isUserMember } from '$lib/server/db/api/family';
+import {
+	getFamilyByToken,
+	acceptInvitationToken,
+	isUserMember
+} from '#lib/server/db/api/family.js';
 
-export const load = async ({ locals, params, url }: { locals: App.Locals; params: Record<string, string>; url: URL }) => {
+export const load = async ({
+	locals,
+	params,
+	url
+}: {
+	locals: App.Locals;
+	params: Record<string, string>;
+	url: URL;
+}) => {
 	const token = params.token;
 	const family = await getFamilyByToken(token);
 

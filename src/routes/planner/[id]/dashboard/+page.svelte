@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { toDateString } from "$lib/utils";
-	import MealCards from "../meals/meal-cards.svelte";
-	import type { PageData } from "./$types";
+	import { toDateString } from '#lib/utils.js';
+	import MealCards from '../meals/meal-cards.svelte';
+	import type { PageData } from './$types';
 
 	// overview page for the current day,
 	// showing the meals planned for today and any tasks

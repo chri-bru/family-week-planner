@@ -1,5 +1,5 @@
-import { deleteMeal, getMealForToday } from '$lib/server/db/api/meals.js';
-import type { Meal } from '$lib/server/db/schema/meals';
+import { deleteMeal, getMealForToday } from '#lib/server/db/api/meals.js';
+import type { Meal } from '#lib/server/db/schema/meals.js';
 import { fail } from '@sveltejs/kit';
 
 export const load = async ({

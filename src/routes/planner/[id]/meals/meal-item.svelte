@@ -1,15 +1,25 @@
 <script lang="ts">
-	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
-	import * as Item from '$lib/components/ui/item/index.js';
-	import * as Dialog from '$lib/components/ui/dialog/index.js';
-	import type { Meal } from '$lib/server/db/schema/meals';
+	import { Button, buttonVariants } from '#lib/components/ui/button/index.js';
+	import * as Item from '#lib/components/ui/item/index.js';
+	import * as Dialog from '#lib/components/ui/dialog/index.js';
+	import type { Meal } from '#lib/server/db/schema/meals.js';
 	import TrashIcon from '@lucide/svelte/icons/trash-2';
 	import PencilIcon from '@lucide/svelte/icons/pencil';
 	import UpdateMealDialog from './update-meal-dialog.svelte';
 	import type { Snippet } from 'svelte';
 	import MealIcon from './meal-icon.svelte';
 
-	let { meal, editMode, deleteFn, children }: { meal: Meal; editMode: boolean; deleteFn: (meal: Meal) => Promise<void>; children?: Snippet } = $props();
+	let {
+		meal,
+		editMode,
+		deleteFn,
+		children
+	}: {
+		meal: Meal;
+		editMode: boolean;
+		deleteFn: (meal: Meal) => Promise<void>;
+		children?: Snippet;
+	} = $props();
 
 	let dialogOpen = $state(false);
 </script>
@@ -41,10 +51,14 @@
 						<Dialog.Close type="button" class={buttonVariants({ variant: 'outline' })}>
 							Cancel
 						</Dialog.Close>
-						<Button onclick={async () => {
-							await deleteFn(meal);
-							dialogOpen = false;
-						}} variant="destructive" type="button">
+						<Button
+							onclick={async () => {
+								await deleteFn(meal);
+								dialogOpen = false;
+							}}
+							variant="destructive"
+							type="button"
+						>
 							Delete
 						</Button>
 					</Dialog.Footer>

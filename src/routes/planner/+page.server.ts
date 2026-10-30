@@ -1,5 +1,5 @@
-import { getPlansByUser } from '$lib/server/db/api/users';
-import type { Family } from '$lib/server/db/schema/family-plans';
+import { getPlansByUser } from '#lib/server/db/api/users.js';
+import type { Family } from '#lib/server/db/schema/family-plans.js';
 import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ locals }: { locals: App.Locals }) => {

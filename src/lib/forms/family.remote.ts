@@ -1,7 +1,7 @@
 import { command, getRequestEvent } from '$app/server';
 import { z } from 'zod';
-import { findUserByEmail, addMemberToPlan } from '$lib/server/db/api/users';
-import { sendInvitation as sendFamilyInvitation } from '$lib/server/db/api/invitations';
+import { findUserByEmail, addMemberToPlan } from '#lib/server/db/api/users.js';
+import { sendInvitation as sendFamilyInvitation } from '#lib/server/db/api/invitations';
 import { error } from '@sveltejs/kit';
 
 const inviteUserFormSchema = z.object({
@@ -33,7 +33,7 @@ export const inviteUser = command(inviteUserFormSchema, async (data) => {
 
 		return { success: true, message: 'Invitation sent successfully' };
 	} catch (err) {
-		console.log(err)
+		console.log(err);
 		error(503, 'There was an error sending the invitation');
 	}
 });

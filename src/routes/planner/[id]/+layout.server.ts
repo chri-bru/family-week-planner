@@ -1,8 +1,14 @@
 import { redirect } from '@sveltejs/kit';
-import { getUsersByPlan } from '$lib/server/db/api/users';
-import { getOrCreateInvitationToken } from '$lib/server/db/api/family';
+import { getUsersByPlan } from '#lib/server/db/api/users.js';
+import { getOrCreateInvitationToken } from '#lib/server/db/api/family.js';
 
-export const load = async ({ locals, params }: { locals: App.Locals; params: Record<string, string> }) => {
+export const load = async ({
+	locals,
+	params
+}: {
+	locals: App.Locals;
+	params: Record<string, string>;
+}) => {
 	if (!locals.user) {
 		throw redirect(303, '/auth/login');
 	}

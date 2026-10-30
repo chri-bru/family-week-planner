@@ -1,6 +1,12 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '$lib/components/ui/card';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import {
+		Card,
+		CardHeader,
+		CardTitle,
+		CardContent,
+		CardFooter
+	} from '#lib/components/ui/card/index.js';
 	import UserPlus from '@lucide/svelte/icons/user-plus';
 	import Check from '@lucide/svelte/icons/check';
 	import X from '@lucide/svelte/icons/x';
@@ -16,7 +22,6 @@
 		success: boolean;
 		message: string;
 	}>();
-
 </script>
 
 <Card class="w-full max-w-md">
@@ -54,7 +59,9 @@
 			</p>
 			{#if acceptInvitationAction.result?.success}
 				<div class="mt-4 rounded-md bg-green-50 p-4 text-center dark:bg-green-900/20">
-					<p class="text-sm text-green-700 dark:text-green-400">{acceptInvitationAction.result.message}</p>
+					<p class="text-sm text-green-700 dark:text-green-400">
+						{acceptInvitationAction.result.message}
+					</p>
 					{#if acceptInvitationAction.result?.familyId}
 						<Button href="/planner/{acceptInvitationAction.result.familyId}/dashboard" class="mt-2">
 							Go to Family
@@ -71,20 +78,23 @@
 	</CardContent>
 	{#if isLoggedIn && !isMember && !acceptInvitationAction.result?.success && !declineResult?.success}
 		<CardFooter class="flex gap-2">
-			<form
-				{...acceptInvitationAction}
-				class="flex-1"
-			>
+			<form {...acceptInvitationAction} class="flex-1">
 				<Button type="submit" class="w-full">
 					<Check class="size-4" />
 					Join
 				</Button>
 			</form>
 			<div class="flex-1">
-				<Button onclick={() => { declineResult = {
-					success: true,
-					message: 'Invitation declined. You can rejoin using the same link anytime.',
-				}}} variant="outline" class="w-full">
+				<Button
+					onclick={() => {
+						declineResult = {
+							success: true,
+							message: 'Invitation declined. You can rejoin using the same link anytime.'
+						};
+					}}
+					variant="outline"
+					class="w-full"
+				>
 					<X class="size-4" />
 					Decline
 				</Button>

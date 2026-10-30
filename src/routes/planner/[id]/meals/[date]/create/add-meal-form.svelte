@@ -1,19 +1,16 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input/index.js';
-	import * as Field from '$lib/components/ui/field';
-	import { addMealAction } from '$lib/forms/meals.remote';
-	
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Input } from '#lib/components/ui/input/index.js';
+	import * as Field from '#lib/components/ui/field/index.js';
+	import { addMealAction } from '#lib/forms/meals.remote.js';
+
 	let { date }: { date: string } = $props();
 
 	addMealAction.fields.type.set('dinner');
 	addMealAction.fields.date.set(date);
 </script>
 
-<form
-	{...addMealAction}
-	class="w-2/3 space-y-6"
->
+<form {...addMealAction} class="w-2/3 space-y-6">
 	<Field.Group>
 		<Field.Field>
 			<Field.Label for="name">Meal to cook</Field.Label>

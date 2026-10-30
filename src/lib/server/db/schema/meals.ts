@@ -15,4 +15,4 @@ export const meal = pgTable('meal', {
 });
 
 export type Meal = typeof meal.$inferSelect;
-export type MealType = typeof mealTypes[number]
+export type MealType = (typeof mealTypes)[number];
