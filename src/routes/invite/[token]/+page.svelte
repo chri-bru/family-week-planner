@@ -10,13 +10,14 @@
 	import UserPlus from '@lucide/svelte/icons/user-plus';
 	import Check from '@lucide/svelte/icons/check';
 	import X from '@lucide/svelte/icons/x';
+	import { untrack } from 'svelte';
 	import { acceptInvitationAction } from './invitations.remote';
 
 	let { data } = $props();
 
-	const isLoggedIn = $state(!!data.user);
-	const isMember = $state(data.isMember);
-	const family = $state(data.family);
+	const isLoggedIn = $state(untrack(() => !!data.user));
+	const isMember = $state(untrack(() => data.isMember));
+	const family = $state(untrack(() => data.family));
 
 	let declineResult = $state<{
 		success: boolean;
@@ -79,6 +80,7 @@
 	{#if isLoggedIn && !isMember && !acceptInvitationAction.result?.success && !declineResult?.success}
 		<CardFooter class="flex gap-2">
 			<form {...acceptInvitationAction} class="flex-1">
+				<input {...acceptInvitationAction.fields.token.as('hidden', data.token)} />
 				<Button type="submit" class="w-full">
 					<Check class="size-4" />
 					Join

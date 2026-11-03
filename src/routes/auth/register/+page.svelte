@@ -12,7 +12,9 @@
 	let email = $state('');
 	let password = $state('');
 
-	const redirect = page.url.searchParams.get('redirect') ?? '/planner';
+	const redirectParam = page.url.searchParams.get('redirect');
+	const redirect =
+		redirectParam?.startsWith('/') && !redirectParam.startsWith('//') ? redirectParam : '/planner';
 
 	// TODO remove alerts and replace with proper UI feedback
 	// Function to handle form submission
@@ -25,7 +27,7 @@
 			fetchOptions: {
 				onSuccess() {
 					alert('Your account has been created.');
-					goto(redirect);
+					goto(redirect).catch(() => goto('/planner'));
 				},
 				onError(context) {
 					alert(context.error.message);

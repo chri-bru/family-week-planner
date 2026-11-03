@@ -12,11 +12,13 @@
 	let {
 		meal,
 		editMode,
+		familyPlanId,
 		deleteFn,
 		children
 	}: {
 		meal: Meal;
 		editMode: boolean;
+		familyPlanId: string;
 		deleteFn: (meal: Meal) => Promise<void>;
 		children?: Snippet;
 	} = $props();
@@ -64,7 +66,7 @@
 					</Dialog.Footer>
 				</Dialog.Content>
 			</Dialog.Root>
-			<UpdateMealDialog {meal}>
+			<UpdateMealDialog {meal} {familyPlanId}>
 				<Button variant="default" size="icon-lg" aria-label="Edit">
 					<PencilIcon />
 				</Button>

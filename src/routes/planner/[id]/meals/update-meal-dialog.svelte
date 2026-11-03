@@ -2,18 +2,19 @@
 	import { Button, buttonVariants } from '#lib/components/ui/button/index.js';
 	import * as Dialog from '#lib/components/ui/dialog/index.js';
 	import type { Meal } from '#lib/server/db/schema/meals.js';
-	import type { Snippet } from 'svelte';
+	import { untrack, type Snippet } from 'svelte';
 	import * as Field from '#lib/components/ui/field/index.js';
 	import { Input } from '#lib/components/ui/input/index.js';
 	import { updateMealAction } from '#lib/forms/meals.remote.js';
-	import { invalidateAll } from '$app/navigation';
+	import { refreshAll } from '$app/navigation';
 
-	let { meal, children }: { meal: Meal; children: Snippet } = $props();
+	let { meal, familyPlanId, children }: { meal: Meal; familyPlanId: string; children: Snippet } =
+		$props();
 
 	let title = 'Edit your meal';
 	let description = 'You can edit this meal here.';
 
-	let updatedMeal = $state(meal);
+	let updatedMeal = $state(untrack(() => meal));
 	let dialogOpen = $state(false);
 </script>
 
@@ -66,12 +67,13 @@
 				onclick={async () => {
 					await updateMealAction({
 						id: updatedMeal.id,
+						familyPlanId,
 						name: updatedMeal.name,
 						date: updatedMeal.date,
 						type: updatedMeal.type,
 						link: updatedMeal.link ?? undefined
 					});
-					await invalidateAll();
+					await refreshAll();
 					dialogOpen = false;
 				}}
 				aria-label="Save button"

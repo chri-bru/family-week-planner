@@ -1,5 +1,4 @@
 import { getPlansByUser } from '#lib/server/db/api/users.js';
-import type { Family } from '#lib/server/db/schema/family-plans.js';
 import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ locals }: { locals: App.Locals }) => {
@@ -9,7 +8,7 @@ export const load = async ({ locals }: { locals: App.Locals }) => {
 
 	const userId = locals.user?.id;
 
-	let plans: Family[] = [];
+	let plans: Awaited<ReturnType<typeof getPlansByUser>> = [];
 
 	if (userId) {
 		plans = await getPlansByUser(userId);

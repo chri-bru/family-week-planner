@@ -1,5 +1,4 @@
 import { getPlansByUser } from '#lib/server/db/api/users.js';
-import type { Family } from '#lib/server/db/schema/family-plans.js';
 import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ locals }: { locals: App.Locals }) => {
@@ -9,7 +8,7 @@ export const load = async ({ locals }: { locals: App.Locals }) => {
 		throw redirect(303, '/auth/login');
 	}
 
-	const plans: Family[] = await getPlansByUser(userId);
+	const plans = await getPlansByUser(userId);
 
 	if (plans.length === 0) {
 		throw redirect(307, '/planner/create');

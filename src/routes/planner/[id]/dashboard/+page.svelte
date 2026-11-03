@@ -10,5 +10,10 @@
 </script>
 
 <div class="flex w-full flex-col items-center gap-4">
-	<MealCards date={toDateString(new Date())} meals={data.meals} readOnly={true} />
+	<MealCards
+		date={toDateString(new Date())}
+		meals={data.meals}
+		readOnly={true}
+		familyPlanId={data.familyId}
+	/>
 </div>

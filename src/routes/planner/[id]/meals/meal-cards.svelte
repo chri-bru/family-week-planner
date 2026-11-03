@@ -11,8 +11,15 @@
 		date,
 		meals,
 		readOnly,
+		familyPlanId,
 		children
-	}: { date: string; meals: Meal[]; readOnly: boolean; children?: Snippet } = $props();
+	}: {
+		date: string;
+		meals: Meal[];
+		readOnly: boolean;
+		familyPlanId: string;
+		children?: Snippet;
+	} = $props();
 
 	let editMode: boolean = $state(false);
 
@@ -64,7 +71,7 @@
 		</Card.Action>
 	</Card.Header>
 	<Card.Content>
-		<MealItemList {meals} {editMode} />
+		<MealItemList {meals} {editMode} {familyPlanId} />
 	</Card.Content>
 	<Card.Footer class="flex justify-end">
 		{@render children?.()}

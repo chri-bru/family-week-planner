@@ -1,21 +1,23 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import { Button } from '#lib/components/ui/button/index.js';
 	import { Input } from '#lib/components/ui/input/index.js';
 	import * as Field from '#lib/components/ui/field/index.js';
 	import { addMealAction } from '#lib/forms/meals.remote.js';
 
-	let { date }: { date: string } = $props();
+	let { date, familyPlanId }: { date: string; familyPlanId: string } = $props();
 
 	addMealAction.fields.type.set('dinner');
-	addMealAction.fields.date.set(date);
+	addMealAction.fields.date.set(untrack(() => date));
 </script>
 
 <form {...addMealAction} class="w-2/3 space-y-6">
+	<input {...addMealAction.fields.familyPlanId.as('hidden', familyPlanId)} />
 	<Field.Group>
 		<Field.Field>
 			<Field.Label for="name">Meal to cook</Field.Label>
 			<Input {...addMealAction.fields.name.as('text')} placeholder="Meal name" />
-			{#each addMealAction.fields.name.issues() as issue}
+			{#each addMealAction.fields.name.issues() as issue (issue.message)}
 				<Field.Error class="issue">{issue.message}</Field.Error>
 			{/each}
 		</Field.Field>
@@ -43,7 +45,7 @@
 				<option value="snack">Snack</option>
 				<option value="special">Special</option>
 			</select>
-			{#each addMealAction.fields.type.issues() as issue}
+			{#each addMealAction.fields.type.issues() as issue (issue.message)}
 				<Field.Error class="issue">{issue.message}</Field.Error>
 			{/each}
 		</Field.Field>

@@ -5,6 +5,7 @@
 	import AddIcon from '@lucide/svelte/icons/plus';
 	import type { PageData } from './$types';
 	import { toDateString } from '#lib/utils.js';
+	import { SvelteDate } from 'svelte/reactivity';
 
 	let { data }: { data: PageData } = $props();
 
@@ -18,13 +19,13 @@
 		const day = today.getDay();
 		const diff = today.getDate() - day + (day === 0 ? -6 : 1);
 
-		const weekStart = new Date(today);
+		const weekStart = new SvelteDate(today);
 		weekStart.setDate(diff);
 
 		const groups: Record<string, Meal[]> = {};
 
 		for (let i = 0; i < 7; i++) {
-			const date = new Date(weekStart);
+			const date = new SvelteDate(weekStart);
 			date.setDate(weekStart.getDate() + i);
 			const dateKey = toDateString(date);
 			groups[dateKey] = [];
@@ -45,8 +46,8 @@
 </script>
 
 <div class="flex w-full flex-col items-center gap-4">
-	{#each groupedMeals as meal}
-		<MealCards date={meal.date} meals={meal.meals} readOnly={false}>
+	{#each groupedMeals as meal (meal.date)}
+		<MealCards date={meal.date} meals={meal.meals} readOnly={false} familyPlanId={data.familyId}>
 			<Button
 				href={`/planner/${data.familyId}/meals/${meal.date}/create`}
 				variant="default"

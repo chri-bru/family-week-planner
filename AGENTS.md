@@ -145,6 +145,7 @@ Nommia is a SvelteKit application designed to help families plan their week effi
 - Blocking the main thread with heavy computations
 - Forgetting to handle loading and error states
 - Not cleaning up event listeners or subscriptions
+- Use SvelteKit 3 remote functions where possible
 
 ## Contributing
 

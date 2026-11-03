@@ -5,10 +5,9 @@ import type { MealType } from '#lib/server/db/schema/meals.js';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { deleteMealFormSchema, mealFormSchema } from './schema/meals';
 
-const validateRequest = async (): Promise<string> => {
+const validateRequest = async (familyPlanId: string): Promise<string> => {
 	const event = getRequestEvent();
 	const user = event.locals.user;
-	const familyPlanId = event.params.id;
 
 	if (!user) {
 		error(401, 'Unauthorized');
@@ -19,20 +18,17 @@ const validateRequest = async (): Promise<string> => {
 	}
 
 	const plansByUser = await getPlansByUser(user.id);
+	const userIsPartOfPlan = plansByUser.find((val) => val.id === familyPlanId);
 
-	if (plansByUser === undefined || plansByUser.length === 0) {
-		const userIsPartOfPlan = plansByUser.find((val) => val.id === familyPlanId);
-
-		if (userIsPartOfPlan === undefined) {
-			error(403, 'User is not part of the specified family plan');
-		}
+	if (userIsPartOfPlan === undefined) {
+		error(403, 'User is not part of the specified family plan');
 	}
 
 	return familyPlanId;
 };
 
 export const addMealAction = form(mealFormSchema, async (data) => {
-	const familyPlanId = await validateRequest();
+	const familyPlanId = await validateRequest(data.familyPlanId);
 
 	try {
 		await createMeal({
@@ -42,7 +38,7 @@ export const addMealAction = form(mealFormSchema, async (data) => {
 			family: familyPlanId,
 			link: data.link
 		});
-	} catch (_err) {
+	} catch {
 		error(501, 'There was an error creating the meal.');
 	}
 
@@ -50,7 +46,7 @@ export const addMealAction = form(mealFormSchema, async (data) => {
 });
 
 export const deleteMealAction = command(deleteMealFormSchema, async (data) => {
-	await validateRequest();
+	await validateRequest(data.familyPlanId);
 	const id = data.id;
 
 	if (!id) {
@@ -60,13 +56,13 @@ export const deleteMealAction = command(deleteMealFormSchema, async (data) => {
 	try {
 		await deleteMeal(id);
 		return { success: true };
-	} catch (err) {
+	} catch {
 		fail(500, { message: 'Failed to delete meal' });
 	}
 });
 
 export const updateMealAction = command(mealFormSchema, async (data) => {
-	const familyPlanId = await validateRequest();
+	const familyPlanId = await validateRequest(data.familyPlanId);
 	const id = data.id;
 
 	if (!id) {
@@ -82,7 +78,7 @@ export const updateMealAction = command(mealFormSchema, async (data) => {
 			link: data.link
 		});
 		return { success: true };
-	} catch (err) {
+	} catch {
 		fail(500, { message: 'Failed to update meal' });
 	}
 });
