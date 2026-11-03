@@ -11,7 +11,7 @@
 	addMealAction.fields.date.set(untrack(() => date));
 </script>
 
-<form {...addMealAction} class="w-2/3 space-y-6">
+<form {...addMealAction} class="w-2/3 space-y-6 self-center">
 	<input {...addMealAction.fields.familyPlanId.as('hidden', familyPlanId)} />
 	<Field.Group>
 		<Field.Field>
