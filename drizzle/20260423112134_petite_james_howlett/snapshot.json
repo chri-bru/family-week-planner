@@ -1,0 +1,100 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "b34dfa0d-7cb4-4994-bd80-db32ab5a5e63",
+  "prevIds": [
+    "1e46212f-4a4b-44b2-82b7-fa7979354a0d"
+  ],
+  "footprints": [
+    {
+      "statementType": "drop_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "invitation"
+      ],
+      "writes": [
+        "s|tbl|public.invitation",
+        "n|tbl|public.invitation",
+        "e|tbl|public.invitation",
+        "n|rel|public.invitation",
+        "n|type|public.invitation"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "drop_enum",
+      "statementTarget": [
+        "enum",
+        "public",
+        "invitation_status"
+      ],
+      "writes": [
+        "s|enum|public.invitation_status",
+        "n|enum|public.invitation_status",
+        "e|enum|public.invitation_status",
+        "n|type|public.invitation_status"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "drop",
+      "key": "tables\u0000[\"public\",\"invitation\"]"
+    },
+    {
+      "op": "drop",
+      "key": "enums\u0000[\"public\",\"invitation_status\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"invitation\",\"id\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"invitation\",\"family_id\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"invitation\",\"invited_user_id\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"invitation\",\"inviter_user_id\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"invitation\",\"status\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"invitation\",\"created_at\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"invitation\",\"updated_at\"]"
+    },
+    {
+      "op": "drop",
+      "key": "fks\u0000[\"public\",\"invitation\",\"invitation_family_id_family_plan_id_fk\"]"
+    },
+    {
+      "op": "drop",
+      "key": "fks\u0000[\"public\",\"invitation\",\"invitation_invited_user_id_user_id_fk\"]"
+    },
+    {
+      "op": "drop",
+      "key": "fks\u0000[\"public\",\"invitation\",\"invitation_inviter_user_id_user_id_fk\"]"
+    },
+    {
+      "op": "drop",
+      "key": "pks\u0000[\"public\",\"invitation\",\"invitation_pkey\"]"
+    }
+  ]
+}

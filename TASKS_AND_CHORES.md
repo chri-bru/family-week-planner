@@ -1,8 +1,8 @@
 # Tasks and Chores
 
-This document describes the database schema and server-side API for one-off tasks and recurring chores.
+This document describes the database schema, server-side API, UI components, and user flows for one-off tasks and recurring chores.
 
-No UI or route is implemented yet. The Tasks entry in the bottom navigation remains disabled.
+The Tasks entry in the bottom navigation is enabled and links to the family's task overview.
 
 ## Concepts
 
@@ -318,17 +318,127 @@ Runs in a transaction:
 
 If the task is missing or already completed, the transaction throws.
 
+## UI
+
+### Routes
+
+| Route                        | Purpose                                       |
+| ---------------------------- | --------------------------------------------- |
+| `/planner/[id]/tasks`        | Overview of pending tasks and chore instances |
+| `/planner/[id]/tasks/create` | Create a one-off task or recurring chore      |
+
+### Overview
+
+Implementation: `src/routes/planner/[id]/tasks/+page.svelte`.
+
+The page load fetches pending tasks and the family's chores in parallel. Chores are used to look up the frequency of each pending chore task.
+
+The toolbar contains:
+
+- a search field that filters by title and description
+- a filter button that shows only tasks assigned to the current user or left unassigned
+- an add button that navigates to the create page
+
+Tasks are sorted by due date ascending. Undated one-off tasks appear after dated tasks. Search and filtering are client-side.
+
+An empty state is shown when there are no tasks or when the current search/filter has no matches.
+
+### Task card
+
+Implementation: `src/routes/planner/[id]/tasks/task-card.svelte`.
+
+Each card shows:
+
+- a task or chore icon in the header
+- the task title
+- a check button that completes the task
+- the description, assignee, and due date in the body
+
+Clicking the card toggles a footer menu with Edit and Delete buttons. Completing a task, editing it, or deleting it stops click propagation so the card menu does not toggle unexpectedly.
+
+Completing a chore task marks the current task complete and creates the next pending occurrence. Completing a one-off task removes it from the overview.
+
+### Icons
+
+Implementation: `src/routes/planner/[id]/tasks/task-icon.svelte`.
+
+- One-off tasks use `list-todo`.
+- Chores use `repeat`.
+
+### Edit dialog
+
+Implementation: `src/routes/planner/[id]/tasks/edit-task-dialog.svelte`.
+
+The dialog updates:
+
+- title
+- description
+- due date
+- assignee, including unassigned
+- frequency, for chores only
+
+Editing a chore sends the due date as `startDate` only when the date changed. This allows an overdue chore's title, description, or assignee to be edited without rescheduling it.
+
+Changing a chore's frequency reschedules it using the recurrence rules. If the due date also changed, the new due date takes precedence.
+
+### Delete dialog
+
+Implementation: `src/routes/planner/[id]/tasks/delete-task-dialog.svelte`.
+
+Both one-off tasks and chore cards require confirmation before deletion.
+
+- Deleting a one-off task removes that task.
+- Deleting a chore removes the chore definition, its pending task, and all completed task history.
+
+### Create page
+
+Implementation:
+
+- `src/routes/planner/[id]/tasks/create/+page.svelte`
+- `src/routes/planner/[id]/tasks/create/create-task-form.svelte`
+
+The form contains:
+
+- title
+- description
+- due date
+- assignee, either unassigned or a family member
+- a "Recurring chore" checkbox
+- frequency, visible only for chores
+
+The due date defaults to today. It is optional for one-off tasks and required for chores. A chore's first occurrence uses the submitted due date as its schedule anchor.
+
+The form uses the `createTaskAction` remote form. On success, the user is redirected to `/planner/[id]/tasks`.
+
+### Remote actions
+
+Implementation: `src/lib/forms/tasks.remote.ts`.
+
+| Export               | Type      | Purpose                                     |
+| -------------------- | --------- | ------------------------------------------- |
+| `createTaskAction`   | `form`    | Create a one-off task or chore and redirect |
+| `updateTaskAction`   | `command` | Update a task or chore                      |
+| `deleteTaskAction`   | `command` | Delete a one-off task or a chore            |
+| `completeTaskAction` | `command` | Complete a task                             |
+
+Each action verifies that the current user belongs to the requested family. Assignees must also be family members. Update, delete, and complete actions verify that the target task or chore belongs to that family.
+
+Form schemas live in `src/lib/forms/schema/tasks.ts`.
+
+The UI calls `refreshAll()` after commands so the overview reflects new, updated, completed, and deleted tasks.
+
 ## Authorization
 
 The database API is intentionally authorization-agnostic.
 
-Callers are responsible for checking:
+Remote actions are responsible for checking:
 
 - the user is authenticated
 - the user belongs to the task's family
+- the target task or chore belongs to that family
 - the user may modify the requested task or chore
 
-These checks belong in remote functions or route handlers when the UI is implemented.
+The overview page itself is protected by the planner layout and also redirects unauthenticated users to the login page.
 
 ## Migration
 

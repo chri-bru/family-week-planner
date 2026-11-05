@@ -1,0 +1,42 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "9034bd64-b9dd-414a-a296-bddf71ab5c4c",
+  "prevIds": [
+    "21d26898-a1ca-4a75-87b3-008fbdee67dc"
+  ],
+  "footprints": [
+    {
+      "statementType": "recreate_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "task",
+        "task_pending_chore_unique"
+      ],
+      "writes": [
+        "s|idx|public.task_pending_chore_unique",
+        "n|idx|public.task_pending_chore_unique",
+        "e|idx|public.task_pending_chore_unique",
+        "n|rel|public.task_pending_chore_unique"
+      ],
+      "reads": [
+        "n|tbl|public.task",
+        "n|sch|public",
+        "n|col|public.task.chore_id"
+      ],
+      "sharedWrites": [],
+      "sqlHash": "d6031504e114a694"
+    }
+  ],
+  "deltas": [
+    {
+      "op": "alter",
+      "key": "indexes\u0000[\"public\",\"task_pending_chore_unique\"]",
+      "set": {
+        "where": "\"completed_at\" IS NULL"
+      }
+    }
+  ]
+}

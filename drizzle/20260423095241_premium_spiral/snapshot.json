@@ -1,0 +1,327 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "4c15ac63-b556-4c4f-b14e-218793524b3e",
+  "prevIds": [
+    "e0aab9d5-dbe9-46f1-8273-2c7c614606aa"
+  ],
+  "footprints": [
+    {
+      "statementType": "create_enum",
+      "statementTarget": [
+        "enum",
+        "public",
+        "invitation_status"
+      ],
+      "writes": [
+        "s|enum|public.invitation_status",
+        "n|enum|public.invitation_status",
+        "e|enum|public.invitation_status",
+        "n|type|public.invitation_status"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "invitation"
+      ],
+      "writes": [
+        "s|tbl|public.invitation",
+        "n|tbl|public.invitation",
+        "e|tbl|public.invitation",
+        "n|rel|public.invitation",
+        "n|type|public.invitation",
+        "n|rel|public.invitation_pkey"
+      ],
+      "reads": [
+        "n|sch|public",
+        "n|enum|public.invitation_status"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "invitation"
+      ],
+      "writes": [
+        "s|fk|public.invitation.invitation_family_id_family_plan_id_fk",
+        "n|fk|public.invitation.invitation_family_id_family_plan_id_fk",
+        "e|fk|public.invitation.invitation_family_id_family_plan_id_fk",
+        "n|con|public.invitation.invitation_family_id_family_plan_id_fk"
+      ],
+      "reads": [
+        "n|tbl|public.invitation",
+        "n|sch|public",
+        "n|tbl|public.family_plan",
+        "n|sch|public",
+        "n|col|public.invitation.family_id",
+        "n|col|public.family_plan.id",
+        "e|uniqueness|public.family_plan.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "invitation"
+      ],
+      "writes": [
+        "s|fk|public.invitation.invitation_invited_user_id_user_id_fk",
+        "n|fk|public.invitation.invitation_invited_user_id_user_id_fk",
+        "e|fk|public.invitation.invitation_invited_user_id_user_id_fk",
+        "n|con|public.invitation.invitation_invited_user_id_user_id_fk"
+      ],
+      "reads": [
+        "n|tbl|public.invitation",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.invitation.invited_user_id",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "invitation"
+      ],
+      "writes": [
+        "s|fk|public.invitation.invitation_inviter_user_id_user_id_fk",
+        "n|fk|public.invitation.invitation_inviter_user_id_user_id_fk",
+        "e|fk|public.invitation.invitation_inviter_user_id_user_id_fk",
+        "n|con|public.invitation.invitation_inviter_user_id_user_id_fk"
+      ],
+      "reads": [
+        "n|tbl|public.invitation",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.invitation.inviter_user_id",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "invitation",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "invitation_status",
+        "values": [
+          "pending",
+          "accepted",
+          "declined",
+          "expired"
+        ],
+        "entityType": "enums"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "invitation",
+        "name": "id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "invitation",
+        "name": "family_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "invitation",
+        "name": "invited_user_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "invitation",
+        "name": "inviter_user_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "invitation",
+        "name": "status",
+        "type": "invitation_status",
+        "typeSchema": "public",
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'pending'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "invitation",
+        "name": "created_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "invitation",
+        "name": "updated_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "invitation",
+        "name": "invitation_family_id_family_plan_id_fk",
+        "nameExplicit": false,
+        "columns": [
+          "family_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "family_plan",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "NO ACTION",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "invitation",
+        "name": "invitation_invited_user_id_user_id_fk",
+        "nameExplicit": false,
+        "columns": [
+          "invited_user_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "user",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "NO ACTION",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "invitation",
+        "name": "invitation_inviter_user_id_user_id_fk",
+        "nameExplicit": false,
+        "columns": [
+          "inviter_user_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "user",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "NO ACTION",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "invitation",
+        "name": "invitation_pkey",
+        "columns": [
+          "id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "1e46212f-4a4b-44b2-82b7-fa7979354a0d",
+  "prevIds": [
+    "4c15ac63-b556-4c4f-b14e-218793524b3e"
+  ],
+  "footprints": [
+    {
+      "statementType": "add_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "family_plan",
+        "invitationToken"
+      ],
+      "writes": [
+        "s|col|public.family_plan.invitationToken",
+        "n|col|public.family_plan.invitationToken",
+        "e|col|public.family_plan.invitationToken"
+      ],
+      "reads": [
+        "n|tbl|public.family_plan",
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "add_unique",
+      "statementTarget": [
+        "table",
+        "public",
+        "family_plan"
+      ],
+      "writes": [
+        "s|uq|public.family_plan.family_plan_invitationToken_unique",
+        "n|uq|public.family_plan.family_plan_invitationToken_unique",
+        "e|uq|public.family_plan.family_plan_invitationToken_unique",
+        "n|con|public.family_plan.family_plan_invitationToken_unique",
+        "n|rel|public.family_plan_invitationToken_unique"
+      ],
+      "reads": [
+        "n|tbl|public.family_plan",
+        "n|sch|public",
+        "n|col|public.family_plan.invitationToken"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "family_plan",
+        "name": "invitationToken",
+        "type": "varchar(64)",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "family_plan",
+        "name": "family_plan_invitationToken_unique",
+        "nameExplicit": false,
+        "columns": [
+          "invitationToken"
+        ],
+        "nullsNotDistinct": false,
+        "entityType": "uniques"
+      }
+    }
+  ]
+}

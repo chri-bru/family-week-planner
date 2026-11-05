@@ -15,22 +15,20 @@
 
 	let { class: className, familyId }: Props = $props();
 
-	let scrollY = $state(0);
-	let lastScrollY = $state(0);
+	let lastScrollY = 0;
 	let visible = $state(true);
 
-	let isScrollingUp = $derived(scrollY < lastScrollY);
-	let isScrollingDown = $derived(scrollY > lastScrollY);
-	let isNearTop = $derived(scrollY < 100);
+	function handleScroll() {
+		const currentScrollY = window.scrollY;
 
-	$effect(() => {
-		if (isScrollingUp) {
+		if (currentScrollY < lastScrollY) {
 			visible = true;
-		} else if (isScrollingDown && !isNearTop) {
+		} else if (currentScrollY > lastScrollY && currentScrollY >= 100) {
 			visible = false;
 		}
-		lastScrollY = scrollY;
-	});
+
+		lastScrollY = currentScrollY;
+	}
 
 	function isActive(href: string): boolean {
 		return page.url.pathname.includes(href);
@@ -46,14 +44,14 @@
 	let navItems: NavItem[] = $derived([
 		{ href: `/planner/${familyId}/dashboard`, label: 'Dashboard', icon: LayoutDashboard },
 		{ href: `/planner/${familyId}/meals`, label: 'Meals', icon: UtensilsCrossed },
-		{ href: `/planner/${familyId}/tasks`, label: 'Tasks', icon: CheckSquare, disabled: true },
+		{ href: `/planner/${familyId}/tasks`, label: 'Tasks', icon: CheckSquare },
 		{ href: `/planner/${familyId}/grocery`, label: 'Grocery', icon: ShoppingCart, disabled: true },
 		{ href: `/planner/${familyId}/contacts`, label: 'Contacts', icon: Book, disabled: true },
 		{ href: `/planner/${familyId}/family`, label: 'Family', icon: Users }
 	]);
 </script>
 
-<svelte:window bind:scrollY />
+<svelte:window onscroll={handleScroll} />
 
 <nav
 	class={cn(
@@ -63,7 +61,7 @@
 	)}
 	style="padding-bottom: env(safe-area-inset-bottom);"
 >
-	{#each navItems as item}
+	{#each navItems as item (item.href)}
 		{@const Icon = item.icon}
 		{@const active = isActive(item.href)}
 		<a
