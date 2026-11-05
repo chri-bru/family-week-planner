@@ -3,81 +3,69 @@ import {
 	varchar,
 	pgTable,
 	text,
-	uuid,
 	integer,
 	pgEnum,
-	boolean,
-	check,
 	date,
 	timestamp,
-	index
+	index,
+	uniqueIndex
 } from 'drizzle-orm/pg-core';
+import { familyPlanTable } from './family-plans';
+import { user } from './users';
 
-// const commonTaskDefinition = {
-// 	id: uuid().primaryKey().defaultRandom(),
-// 	title: varchar({ length: 256 }).notNull(),
-// 	description: text(),
+const choreFrequencies = ['weekly', 'monthly', 'quarterly', 'half_yearly', 'yearly'] as const;
 
-// 	owner: integer().references(() => familyPlanTable.id),
-// 	creator: integer().references(() => user.id)
-// };
+export const choreFrequency = pgEnum('chore_frequency', choreFrequencies);
 
-// /**
-//  * Tasks (incl. one-off and recurring ones)
-//  */
-// export const task = pgTable('task', {
-// 	...commonTaskDefinition,
+export const chore = pgTable(
+	'chore',
+	{
+		id: integer().primaryKey().generatedAlwaysAsIdentity(),
+		family: text()
+			.notNull()
+			.references(() => familyPlanTable.id),
+		title: varchar({ length: 256 }).notNull(),
+		description: text(),
+		frequency: choreFrequency().notNull(),
+		startDate: date('start_date').notNull(),
+		nextDueDate: date('next_due_date').notNull(),
+		assignedTo: text('assigned_to').references(() => user.id),
+		createdBy: text('created_by').references(() => user.id),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull()
+	},
+	(table) => [index('chore_family_idx').on(table.family)]
+);
 
-// 	completed: boolean().default(false),
-// 	completed_by: integer(), // references user.id
+export const task = pgTable(
+	'task',
+	{
+		id: integer().primaryKey().generatedAlwaysAsIdentity(),
+		family: text()
+			.notNull()
+			.references(() => familyPlanTable.id),
+		chore: integer('chore_id').references(() => chore.id, { onDelete: 'cascade' }),
+		title: varchar({ length: 256 }).notNull(),
+		description: text(),
+		dueDate: date('due_date'),
+		assignedTo: text('assigned_to').references(() => user.id),
+		completedAt: timestamp('completed_at'),
+		completedBy: text('completed_by').references(() => user.id),
+		createdBy: text('created_by').references(() => user.id),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('task_family_due_idx').on(table.family, table.dueDate),
+		index('task_chore_idx').on(table.chore),
+		uniqueIndex('task_pending_chore_unique')
+			.on(table.chore)
+			.where(sql`${table.completedAt} IS NULL`)
+	]
+);
 
-// 	start_date: date('start_date'), // first possible occurrence
-// 	due_date: date('due_date'), // optional per-task due
-
-// 	template: integer() // references reccurence.id if based on a recurring task
-// });
-
-// /**
-//  * Recurring tasks that function as a task template
-//  */
-// export const frequencyEnum = pgEnum('frequency', ['day', 'week', 'month']);
-// export const recurrence = pgTable(
-// 	'recurrence',
-// 	{
-// 		...commonTaskDefinition,
-
-// 		// intervall settings
-// 		frequency: frequencyEnum().default('day'), // defines when the task should reocur
-// 		interval: integer().notNull().default(1), // e.g. frequency: day, interval: 2 -> every 2nd day
-// 		weekday: integer(), // maps to the day of the week
-// 		monthday: integer(), // maps to the day of the month, -1 representing the end of the month
-// 		paused: boolean().default(false),
-
-// 		repeatUntil: date('repeat_until') // opt. repeat until a given day
-// 	},
-// 	(table) => [
-// 		check('weekday_check', sql`${table.weekday} >= 0 AND ${table.weekday} < 8`),
-// 		check('monthday_check', sql`${table.monthday} >= -1 AND ${table.weekday} < 32`)
-// 	]
-// );
-
-// /**
-//  * Task history to have a backlog of task events
-//  */
-// export const statusEnum = pgEnum('status', ['created', 'completed', 'paused', 'deleted']);
-// export const history = pgTable(
-// 	'task_history',
-// 	{
-// 		id: uuid().primaryKey().defaultRandom(),
-// 		user: integer().references(() => user.id),
-// 		family: integer().references(() => familyPlanTable.id),
-// 		createdAt: timestamp('created_at').defaultNow(),
-// 		title: text().notNull(),
-// 		status: statusEnum().notNull()
-// 	},
-// 	(table) => [index('family_idx').on(table.family)]
-// );
-
-// export type Task = typeof task.$inferSelect;
-// export type Recurrence = typeof recurrence.$inferSelect;
-// export type History = typeof history.$inferSelect;
+export type Chore = typeof chore.$inferSelect;
+export type NewChore = typeof chore.$inferInsert;
+export type Task = typeof task.$inferSelect;
+export type NewTask = typeof task.$inferInsert;
+export type ChoreFrequency = (typeof choreFrequencies)[number];
